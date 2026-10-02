@@ -77,6 +77,11 @@ h2 span { display: inline-grid; width: 28px; height: 28px; place-items: center; 
 .editor button { border: 0; border-radius: 4px; background: var(--blue-500); padding: 13px; color: var(--white); }
 .editor button:hover { background: var(--navy-800); }
 
+[data-role='user'] .editor,
+[data-role='user'] .row-actions,
+[data-role='guest'] .editor,
+[data-role='guest'] .row-actions { display: none; }
+
 @media (max-width: 760px) {
   .auth-shell { grid-template-columns: 1fr; }
   .auth-panel { max-width: none; padding: 44px 24px 34px; }

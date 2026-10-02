@@ -13,6 +13,9 @@ async function request(path, options = {}) {
 
 function ProductApp() {
   const [token, setToken] = useState(() => localStorage.getItem('product_token'))
+  const [user, setUser] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('product_user') || 'null') } catch { return null }
+  })
   const [authMode, setAuthMode] = useState('login')
   const [authForm, setAuthForm] = useState({ username: '', email: '', password: '' })
   const [products, setProducts] = useState([])
@@ -20,18 +23,23 @@ function ProductApp() {
   const [editingId, setEditingId] = useState(null)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const isAdmin = user?.role === 'admin'
   const secureHeaders = { Authorization: `Bearer ${token}` }
 
   async function loadProducts() {
     try { const data = await request('/products', { headers: secureHeaders }); setProducts(data.data || []) } catch (err) { setError(err.message) }
   }
   useEffect(() => { if (token) loadProducts() }, [token])
+  useEffect(() => {
+    document.documentElement.dataset.role = user?.role || 'guest'
+    return () => { delete document.documentElement.dataset.role }
+  }, [user])
   async function submitAuth(event) {
     event.preventDefault(); setError(''); setMessage('')
     try {
       const data = await request(authMode === 'login' ? '/auth/login' : '/auth/register', { method: 'POST', body: JSON.stringify(authForm) })
       if (authMode === 'register') { setAuthMode('login'); setMessage('Account created. Sign in to continue.'); return }
-      localStorage.setItem('product_token', data.tokens.access_token); setToken(data.tokens.access_token)
+      localStorage.setItem('product_token', data.tokens.access_token); localStorage.setItem('product_user', JSON.stringify(data.user)); setUser(data.user); setToken(data.tokens.access_token)
     } catch (err) { setError(err.message) }
   }
   async function submitProduct(event) {
@@ -46,7 +54,7 @@ function ProductApp() {
     if (!window.confirm('Delete this product?')) return
     try { await request(`/products/${id}`, { method: 'DELETE', headers: secureHeaders }); setMessage('Product deleted.'); loadProducts() } catch (err) { setError(err.message) }
   }
-  function logout() { localStorage.removeItem('product_token'); setToken(null); setProducts([]) }
+  function logout() { localStorage.removeItem('product_token'); localStorage.removeItem('product_user'); setUser(null); setToken(null); setProducts([]) }
 
   if (!token) return <main className="auth-shell"><section className="auth-panel"><p className="eyebrow">PRODUCT MANAGEMENT / LAB 06</p><h1>Keep your<br /><em>inventory</em> moving.</h1><p className="subtle">A clean workspace for tracking stock, pricing, and product details.</p><form onSubmit={submitAuth} className="auth-form">{authMode === 'register' && <label>Username<input required value={authForm.username} onChange={e => setAuthForm({ ...authForm, username: e.target.value })} /></label>}<label>Email<input required type="email" value={authForm.email} onChange={e => setAuthForm({ ...authForm, email: e.target.value })} /></label><label>Password<input required type="password" minLength="6" value={authForm.password} onChange={e => setAuthForm({ ...authForm, password: e.target.value })} /></label><button className="primary" type="submit">{authMode === 'login' ? 'Sign in' : 'Create account'} <span>→</span></button></form>{error && <p className="error">{error}</p>}{message && <p className="success">{message}</p>}<button className="text-button" onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}>{authMode === 'login' ? 'Need an account? Register' : 'Already registered? Sign in'}</button></section><aside className="auth-art"><span>01</span><strong>STOCK<br />ROOM</strong><i>●</i></aside></main>
 
