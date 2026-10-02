@@ -4,6 +4,13 @@ import './ProductApp.css'
 const API_URL = import.meta.env.VITE_API_URL || 'https://cuartodaryn.onrender.com/api'
 const emptyProduct = { product_name: '', description: '', price: '', quantity: '' }
 
+function tokenUser(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    return payload.role ? { role: payload.role } : null
+  } catch { return null }
+}
+
 async function request(path, options = {}) {
   const response = await fetch(`${API_URL}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...(options.headers || {}) } })
   const data = await response.json().catch(() => ({}))
@@ -14,7 +21,9 @@ async function request(path, options = {}) {
 function ProductApp() {
   const [token, setToken] = useState(() => localStorage.getItem('product_token'))
   const [user, setUser] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('product_user') || 'null') } catch { return null }
+    try {
+      return JSON.parse(localStorage.getItem('product_user') || 'null') || tokenUser(localStorage.getItem('product_token') || '')
+    } catch { return tokenUser(localStorage.getItem('product_token') || '') }
   })
   const [authMode, setAuthMode] = useState('login')
   const [authForm, setAuthForm] = useState({ username: '', email: '', password: '' })
@@ -23,7 +32,7 @@ function ProductApp() {
   const [editingId, setEditingId] = useState(null)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const isAdmin = user?.role === 'admin'
+  const isAdmin = String(user?.role || '').toLowerCase() === 'admin'
   const secureHeaders = { Authorization: `Bearer ${token}` }
 
   async function loadProducts() {
