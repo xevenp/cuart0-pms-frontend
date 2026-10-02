@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --navy-950: #260b0d;
-  --navy-900: #3b1116;
-  --navy-800: #5b1d25;
-  --navy-700: #7c2b35;
-  --blue-500: #c44550;
-  --blue-100: #fbe7e8;
-  --paper: #fff8f7;
+  --navy-950: #071525;
+  --navy-900: #0b1f36;
+  --navy-800: #123252;
+  --navy-700: #1b466d;
+  --blue-500: #2f80c7;
+  --blue-100: #e5f1fb;
+  --paper: #f5f8fb;
   --white: #ffffff;
-  --ink: #32191b;
-  --muted: #80676a;
-  --line: #ead7d8;
-  --danger: #b22f3b;
+  --ink: #12243a;
+  --muted: #64778c;
+  --line: #d9e2eb;
+  --danger: #b94747;
   --success: #23775c;
   font-family: 'Manrope', sans-serif;
   color: var(--ink);
@@ -23,7 +23,7 @@
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; background: linear-gradient(135deg, #fff8f7 0%, #ffffff 48%, #f9edef 100%); }
+body { margin: 0; min-width: 320px; background: linear-gradient(135deg, #f5f8fb 0%, #ffffff 48%, #edf4fa 100%); }
 button, input, textarea { font: inherit; }
 button { cursor: pointer; }
 #root { min-height: 100svh; width: 100%; }
@@ -43,7 +43,7 @@ input, textarea { width: 100%; border: 1px solid var(--line); border-radius: 4px
 textarea { min-height: 94px; resize: vertical; }
 input:focus, textarea:focus { border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(47, 128, 199, .14); }
 .primary { margin-top: 6px; border: 0; border-radius: 4px; background: var(--navy-900); padding: 14px 17px; color: var(--white); text-align: left; transition: background .2s ease, transform .2s ease; }
-.primary:hover { background: var(--navy-700); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(59, 17, 22, .18); }
+.primary:hover { background: var(--navy-700); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(7, 21, 37, .18); }
 .primary span { float: right; font-size: 18px; }
 .text-button { border: 0; background: transparent; padding: 8px 0; color: var(--blue-500); font-size: 13px; text-align: left; }
 .text-button:hover { color: var(--navy-900); }
@@ -65,7 +65,7 @@ h2 span { display: inline-grid; width: 28px; height: 28px; place-items: center; 
 .status-dot { color: var(--success); font: 500 11px 'DM Mono'; white-space: nowrap; }
 .product-list { border-top: 1px solid var(--line); }
 .product-row { display: grid; grid-template-columns: minmax(150px, 1fr) auto auto auto; align-items: center; gap: 20px; border-bottom: 1px solid var(--line); padding: 20px 14px; transition: background .2s ease, transform .2s ease; }
-.product-row:hover { background: rgba(196, 69, 80, .055); transform: translateX(4px); }
+.product-row:hover { background: rgba(47, 128, 199, .055); transform: translateX(4px); }
 .product-row h3 { margin: 0 0 5px; color: var(--navy-950); font-size: 16px; }
 .product-row p { margin: 0; color: var(--muted); font-size: 13px; }
 .product-row > strong { color: var(--navy-900); font-size: 16px; }
@@ -74,7 +74,7 @@ h2 span { display: inline-grid; width: 28px; height: 28px; place-items: center; 
 .row-actions button { width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 4px; background: var(--white); color: var(--navy-800); }
 .row-actions button:hover { border-color: var(--blue-500); color: var(--blue-500); }
 .empty { border: 1px dashed var(--line); padding: 30px; color: var(--muted); font-size: 14px; text-align: center; }
-.editor { position: sticky; top: 24px; align-self: start; margin-top: 0; border: 1px solid var(--line); border-radius: 10px; background: rgba(255, 255, 255, .88); padding: 30px; box-shadow: 0 20px 42px rgba(59, 17, 22, .1); backdrop-filter: blur(12px); }
+.editor { position: sticky; top: 24px; align-self: start; margin-top: 0; border: 1px solid var(--line); border-radius: 10px; background: rgba(255, 255, 255, .88); padding: 30px; box-shadow: 0 20px 42px rgba(7, 21, 37, .1); backdrop-filter: blur(12px); }
 .editor h2 { margin-bottom: 8px; font-size: 24px; }
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .editor button { border: 0; border-radius: 4px; background: var(--blue-500); padding: 13px; color: var(--white); }
