@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './ProductApp.css'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+const API_URL = import.meta.env.VITE_API_URL || 'https://cuartodaryn.onrender.com/api'
 const emptyProduct = { product_name: '', description: '', price: '', quantity: '' }
 
 async function request(path, options = {}) {
