@@ -48,7 +48,8 @@ function ProductApp() {
     try {
       const data = await request(authMode === 'login' ? '/auth/login' : '/auth/register', { method: 'POST', body: JSON.stringify(authForm) })
       if (authMode === 'register') { setAuthMode('login'); setMessage('Account created. Sign in to continue.'); return }
-      localStorage.setItem('product_token', data.tokens.access_token); localStorage.setItem('product_user', JSON.stringify(data.user)); setUser(data.user); setToken(data.tokens.access_token)
+      const loggedInUser = { ...data.user, role: data.user?.role || tokenUser(data.tokens.access_token)?.role }
+      localStorage.setItem('product_token', data.tokens.access_token); localStorage.setItem('product_user', JSON.stringify(loggedInUser)); setUser(loggedInUser); setToken(data.tokens.access_token)
     } catch (err) { setError(err.message) }
   }
   async function submitProduct(event) {
